@@ -1,10 +1,11 @@
 ﻿using Microsoft.Xrm.Sdk;
+using Newtonsoft.Json;
+using PowerPagesActionsAdapter.Models;
 using PowerPagesActionsAdapter.Plugins;
 using PowerPagesCustomApiAdapter.EarlyBounds;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
 
 namespace PowerPagesActionsAdapter.Services
 {
@@ -27,7 +28,8 @@ namespace PowerPagesActionsAdapter.Services
             }
             catch (Exception ex)
             {
-                target.MwO_Outputs = ex.Message; //TODO JSON
+                var error = new ErrorResponse(ex.Message);
+                target.MwO_Outputs = JsonConvert.SerializeObject(error, Formatting.Indented);
             }
         }
 
@@ -42,13 +44,14 @@ namespace PowerPagesActionsAdapter.Services
                 .FirstOrDefault();
 
             Guard(config, $"No Configuration set for given Operation {target.MwO_Operation}");
+            TracingService.Trace($"Retrieved Configuration");
 
             target.MwO_ConfigurationId = config.ToEntityReference();
 
             switch (config.MwO_ActionTypeCode)
             {
                 case MwO_PowerPagesActionType.CustomApi: 
-                    ExecuteCustomApi(target, config); 
+                    target.MwO_Outputs = ExecuteCustomApi(target, config); 
                     break;
                 default:
                     throw new InvalidPluginExecutionException("Invalid action type configured");
@@ -57,14 +60,14 @@ namespace PowerPagesActionsAdapter.Services
             TracingService.Trace($"Done ExecuteActionService");
         }
 
-        private Dictionary<string, object> ExecuteCustomApi(MwO_PowerPagesAction target, MwO_PowerPagesActionConfiguration config)
+        private string ExecuteCustomApi(MwO_PowerPagesAction target, MwO_PowerPagesActionConfiguration config)
         {
             TracingService.Trace($"Building {config.MwO_CustomApi} Request");
             var request = new OrganizationRequest(config.MwO_CustomApi);
 
             Dictionary<string, object> inputs = new Dictionary<string, object>();
             if (!string.IsNullOrEmpty(target.MwO_Inputs))
-                inputs = JsonSerializer.Deserialize<Dictionary<string, object>>(target.MwO_Inputs);
+                inputs = JsonConvert.DeserializeObject<Dictionary<string, object>>(target.MwO_Inputs);
 
             foreach (var input in inputs)
             {
@@ -84,7 +87,7 @@ namespace PowerPagesActionsAdapter.Services
                 outputs[result.Key] = result.Value;
             }
 
-            return outputs;
+            return JsonConvert.SerializeObject(outputs, Formatting.Indented);
         }
         
 

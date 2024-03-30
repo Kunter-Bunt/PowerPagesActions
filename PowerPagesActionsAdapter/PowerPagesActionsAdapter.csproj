@@ -17,8 +17,8 @@
   <PropertyGroup>
     <PackageId>PowerPagesActionsAdapter</PackageId>
     <Version>$(FileVersion)</Version>
-    <Authors>mariu</Authors>
-    <Company>MyCompany</Company>
+    <Authors>Marius Wodtke</Authors>
+    <Company></Company>
     <Description>This is a sample nuget package which contains a Dataverse plugin and its runtime dependencies like Newtonsoft.Json</Description>
   </PropertyGroup>
 
@@ -27,6 +27,7 @@
     <PackageReference Include="Microsoft.CrmSdk.CoreAssemblies" Version="9.0.2.*" PrivateAssets="All" />
     <PackageReference Include="Microsoft.PowerApps.MSBuild.Plugin" Version="1.*" PrivateAssets="All" />
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.*" PrivateAssets="All" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
   <Import Project="$(PowerAppsTargetsPath)\Microsoft.PowerApps.VisualStudio.Plugin.targets" Condition="Exists('$(PowerAppsTargetsPath)\Microsoft.PowerApps.VisualStudio.Plugin.targets')" />
