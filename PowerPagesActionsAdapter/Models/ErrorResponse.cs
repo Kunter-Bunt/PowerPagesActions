@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
 
 namespace PowerPagesActionsAdapter.Models
 {
@@ -13,6 +9,7 @@ namespace PowerPagesActionsAdapter.Models
             Message = message;
         }
 
+        [JsonProperty("message")]
         public string Message { get; set; }
     }
 }
