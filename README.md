@@ -8,15 +8,15 @@ TODO
 1. Install Managed Solution
 2. Create Table Permission on `mwo_powerpagesaction`, Global Access, Read. Select the appropriate WebRoles, for more information regarding Security, see below.
 3. Create 2 Site Settings
-  - Webapi/mwo_powerpagesaction/enabled : True
-  - Webapi/mwo_powerpagesaction/fields : *
+    - Webapi/mwo_powerpagesaction/enabled : True
+    - Webapi/mwo_powerpagesaction/fields : *
 4. Create an Action Configuration (mwo_powerpagesactionconfiguration) with an operation name that you will pass from Power Pages and the unique name of the Custom API you want to call. You will find Action Configuration in the Power Pages Management App in the section Actions.
 5. Create Webfile actions.js, include the content from actions.js in this repository and then include it on your page html `<script src="/actions.js"></script>`.
 6. Call `callAction(operation, inputs, onSuccess, onError)` where operation is the operation name you assigned to the Action Configuration and inputs is an object with the Request Parameters of the Custom API. onSuccess and onError are functions receiving the `mwo_outputs` as a parsed object.
-  - Success Responses contain the Response Properties of the Custom API in the object.
-  - Error Responses from the Custom API/Adapter will have a property message.
-  - Error Responses from the Power Page OData API will be passed raw (unless it's a known configuration error) and are likely to have an error object with a message property.
-  - It is advised to check `var errorMessage = outputs.message || outputs.error?.message;` for most common errors in the onError function.
+    - Success Responses contain the Response Properties of the Custom API in the object.
+    - Error Responses from the Custom API/Adapter will have a property message.
+    - Error Responses from the Power Page OData API will be passed raw (unless it's a known configuration error) and are likely to have an error object with a message property.
+    - It is advised to check `var errorMessage = outputs.message || outputs.error?.message;` for most common errors in the onError function.
 
 ## Security 
 TODO
