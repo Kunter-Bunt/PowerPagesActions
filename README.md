@@ -2,7 +2,7 @@
 Call custom code from Power Pages! This page creates a mapping from a Custom API to the Power Pages OData Endpoint, allowing you to call selected Custom APIs from your website code.
 
 ## Video Guide
-TODO
+[![Setup Guide](https://img.youtube.com/vi/oTJVEFKjM1Y/0.jpg)](https://www.youtube.com/watch?v=oTJVEFKjM1Y)
 
 ## Setup
 1. Install Managed Solution

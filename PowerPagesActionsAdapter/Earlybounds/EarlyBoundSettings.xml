@@ -55,7 +55,6 @@ mwo_powerpagesactionconfiguration</EntitiesWhitelist>
     <OptionSetLanguageCodeOverride
       xsi:nil="true" />
     <OptionSetNames />
-    <OutputRelativeDirectory />
     <ProjectNameForEarlyBoundFiles />
     <PropertyEnumMappings />
     <ReadSerializedMetadata>false</ReadSerializedMetadata>
