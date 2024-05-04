@@ -79,6 +79,10 @@ namespace PowerPagesCustomApiAdapter.EarlyBounds
 			public const string ModifiedOnBehalfByYomiName = "modifiedonbehalfbyyominame";
 			public const string MwO_ConfigurationId = "mwo_configurationid";
 			public const string MwO_ConfigurationIdName = "mwo_configurationidname";
+			public const string MwO_ContactId = "mwo_contactid";
+			public const string MwO_ContactIdName = "mwo_contactidname";
+			public const string MwO_ContactIdYomiName = "mwo_contactidyominame";
+			public const string MwO_ContactOfPowerPagesActions = "mwo_ContactOfPowerPagesActions";
 			public const string MwO_Inputs = "mwo_inputs";
 			public const string MwO_Operation = "mwo_operation";
 			public const string MwO_Outputs = "mwo_outputs";
@@ -410,6 +414,55 @@ namespace PowerPagesCustomApiAdapter.EarlyBounds
 			}
 		}
 		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("mwo_contactid")]
+		public Microsoft.Xrm.Sdk.EntityReference MwO_ContactId
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("mwo_contactid");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("mwo_contactid", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("mwo_contactidname")]
+		public string MwO_ContactIdName
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				if (this.FormattedValues.Contains("mwo_contactid"))
+				{
+					return this.FormattedValues["mwo_contactid"];
+				}
+				else
+				{
+					return default(string);
+				}
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("mwo_contactidyominame")]
+		public string MwO_ContactIdYomiName
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				if (this.FormattedValues.Contains("mwo_contactid"))
+				{
+					return this.FormattedValues["mwo_contactid"];
+				}
+				else
+				{
+					return default(string);
+				}
+			}
+		}
+		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("mwo_inputs")]
 		public string MwO_Inputs
 		{
@@ -660,6 +713,25 @@ namespace PowerPagesCustomApiAdapter.EarlyBounds
 			get
 			{
 				return this.GetAttributeValue<System.Nullable<long>>("versionnumber");
+			}
+		}
+		
+		/// <summary>
+		/// N:1 mwo_ContactOfPowerPagesActions
+		/// </summary>
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("mwo_contactid")]
+		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("mwo_ContactOfPowerPagesActions")]
+		public PowerPagesCustomApiAdapter.EarlyBounds.Contact MwO_ContactOfPowerPagesActions
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetRelatedEntity<PowerPagesCustomApiAdapter.EarlyBounds.Contact>("mwo_ContactOfPowerPagesActions", null);
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetRelatedEntity<PowerPagesCustomApiAdapter.EarlyBounds.Contact>("mwo_ContactOfPowerPagesActions", null, value);
 			}
 		}
 		

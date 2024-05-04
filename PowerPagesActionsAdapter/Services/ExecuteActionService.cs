@@ -57,8 +57,8 @@ namespace PowerPagesActionsAdapter.Services
                 return;
             }
 
-            target.MwO_Operation = ExtractConditionValue(query, MwO_PowerPagesAction.Fields.MwO_Operation);
-            target.MwO_Inputs = ExtractConditionValue(query, MwO_PowerPagesAction.Fields.MwO_Inputs);
+            target.MwO_Operation = ExtractConditionValue<string>(query, MwO_PowerPagesAction.Fields.MwO_Operation);
+            target.MwO_Inputs = ExtractConditionValue<string>(query, MwO_PowerPagesAction.Fields.MwO_Inputs);
             if (target.MwO_Operation == null)
             {
                 TracingService.Trace($"Not valid for Action execution due to missing operation, skipping");
@@ -75,6 +75,8 @@ namespace PowerPagesActionsAdapter.Services
 
             target.MwO_ConfigurationId = config.ToEntityReference();
 
+            GuardAuthorization(query, target, config);
+
             switch (config.MwO_ActionTypeCode)
             {
                 case MwO_PowerPagesActionType.CustomApi:
@@ -88,13 +90,13 @@ namespace PowerPagesActionsAdapter.Services
             TracingService.Trace($"Done ExecuteActionService");
         }
 
-        private string ExtractConditionValue(QueryExpression query, string attributeName)
+        private T ExtractConditionValue<T>(QueryExpression query, string attributeName)
         {
             var conditions = GetAllConditions(query.Criteria);
-
-            return conditions
+            var obj = conditions
                 .FirstOrDefault(_ => _.AttributeName == attributeName)
-                ?.Values.First() as string;
+                ?.Values.First();
+            return obj != null ? (T)obj : default;
         }
 
         private DataCollection<ConditionExpression> GetAllConditions(FilterExpression input)
@@ -113,6 +115,11 @@ namespace PowerPagesActionsAdapter.Services
             Dictionary<string, object> inputs = new Dictionary<string, object>();
             if (!string.IsNullOrEmpty(target.MwO_Inputs))
                 inputs = JsonConvert.DeserializeObject<Dictionary<string, object>>(target.MwO_Inputs.Trim('%'));
+
+            if (!string.IsNullOrEmpty(config.MwO_ContactGUIdParameter) && target.MwO_ContactId != null)
+                inputs[config.MwO_ContactGUIdParameter] = target.MwO_ContactId.Id;
+            if (!string.IsNullOrEmpty(config.MwO_ContactReferenceParameter) && target.MwO_ContactId != null)
+                inputs[config.MwO_ContactReferenceParameter] = target.MwO_ContactId;
 
             foreach (var input in inputs)
             {
@@ -140,6 +147,41 @@ namespace PowerPagesActionsAdapter.Services
         {
             if (tbc == null)
                 throw new InvalidPluginExecutionException(message);
+        }
+
+        private void GuardAuthorization(QueryExpression query, MwO_PowerPagesAction target, MwO_PowerPagesActionConfiguration config)
+        {
+            var contactId = ExtractConditionValue<Guid?>(query, MwO_PowerPagesAction.Fields.MwO_ContactId);
+            TracingService.Trace($"Called by Contact {contactId}");
+            if (contactId != null && contactId != Guid.Empty)
+            {
+                target.MwO_ContactId = new EntityReference("contact", contactId.Value);
+            }
+            else if (config.MwO_IsRestrictedToAuthenticated == true || config.MwO_IsRestrictedToWebRoles == true)
+                throw new InvalidPluginExecutionException("Action not allowed for anonymous user.");
+
+            if (config.MwO_IsRestrictedToWebRoles == true)
+            {
+                var configRoles = DataverseContext.MwO_PowerPagesActionConfigurationSet
+                    .Where(_ => _.Id == config.Id)
+                    .SelectMany(_ => _.MwO_PPactionConfiguration_MsPp_WebRole)
+                    .Select(_ => new PowerPageComponent { Id = _.Id })
+                    .ToList();
+                TracingService.Trace($"Allow Roles {string.Join(";", configRoles.Select(_ => _.Id))}");
+
+                var contactRoles = DataverseContext.ContactSet
+                    .Where(_ => _.Id == contactId)
+                    .SelectMany(_ => _.PowerPageComponent_MsPp_WebRole_Contact)
+                    .Select(_ => new PowerPageComponent { Id = _.Id })
+                    .ToList();
+                TracingService.Trace($"Caller Roles {string.Join(";", contactRoles.Select(_ => _.Id))}");
+
+                var roleMatch = contactRoles.Any(_ => configRoles.Any(r => r.Id == _.Id));
+                TracingService.Trace($"Role Match? {roleMatch}");
+
+                if (!roleMatch)
+                    throw new InvalidPluginExecutionException("Action not allowed for the current roles.");
+            }
         }
     }
 }

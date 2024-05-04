@@ -13,10 +13,10 @@ namespace PowerPagesCustomApiAdapter.EarlyBounds
 	
 	
 	/// <summary>
-	/// Status of the Power Pages Action Configuration
+	/// Status of the Power Pages Component
 	/// </summary>
 	[System.Runtime.Serialization.DataContractAttribute()]
-	public enum MwO_PowerPagesActionConfiguration_StateCode
+	public enum PowerPageComponent_StateCode
 	{
 		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
@@ -29,10 +29,10 @@ namespace PowerPagesCustomApiAdapter.EarlyBounds
 	}
 	
 	/// <summary>
-	/// Reason for the status of the Power Pages Action Configuration
+	/// Reason for the status of the Power Pages Component
 	/// </summary>
 	[System.Runtime.Serialization.DataContractAttribute()]
-	public enum MwO_PowerPagesActionConfiguration_StatusCode
+	public enum PowerPageComponent_StatusCode
 	{
 		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
@@ -45,15 +45,19 @@ namespace PowerPagesCustomApiAdapter.EarlyBounds
 	}
 	
 	[System.Runtime.Serialization.DataContractAttribute()]
-	[Microsoft.Xrm.Sdk.Client.EntityLogicalNameAttribute("mwo_powerpagesactionconfiguration")]
-	public partial class MwO_PowerPagesActionConfiguration : Microsoft.Xrm.Sdk.Entity
+	[Microsoft.Xrm.Sdk.Client.EntityLogicalNameAttribute("powerpagecomponent")]
+	public partial class PowerPageComponent : Microsoft.Xrm.Sdk.Entity
 	{
 		
 		/// <summary>
-		/// Available fields, a the time of codegen, for the mwo_powerpagesactionconfiguration entity
+		/// Available fields, a the time of codegen, for the powerpagecomponent entity
 		/// </summary>
 		public partial class Fields
 		{
+			public const string ComponentIdUnique = "componentidunique";
+			public const string ComponentState = "componentstate";
+			public const string ComponentStateName = "componentstatename";
+			public const string Content = "content";
 			public const string CreatedBy = "createdby";
 			public const string CreatedByName = "createdbyname";
 			public const string CreatedByYomiName = "createdbyyominame";
@@ -61,7 +65,12 @@ namespace PowerPagesCustomApiAdapter.EarlyBounds
 			public const string CreatedOnBehalfBy = "createdonbehalfby";
 			public const string CreatedOnBehalfByName = "createdonbehalfbyname";
 			public const string CreatedOnBehalfByYomiName = "createdonbehalfbyyominame";
+			public const string FileContent = "filecontent";
+			public const string FileContent_Name = "filecontent_name";
 			public const string ImportSequenceNumber = "importsequencenumber";
+			public const string IsCustomizable = "iscustomizable";
+			public const string IsManaged = "ismanaged";
+			public const string IsManagedName = "ismanagedname";
 			public const string ModifiedBy = "modifiedby";
 			public const string ModifiedByName = "modifiedbyname";
 			public const string ModifiedByYomiName = "modifiedbyyominame";
@@ -69,21 +78,10 @@ namespace PowerPagesCustomApiAdapter.EarlyBounds
 			public const string ModifiedOnBehalfBy = "modifiedonbehalfby";
 			public const string ModifiedOnBehalfByName = "modifiedonbehalfbyname";
 			public const string ModifiedOnBehalfByYomiName = "modifiedonbehalfbyyominame";
-			public const string MwO_ActionTypeCode = "mwo_actiontypecode";
-			public const string MwO_ActionTypeCodename = "mwo_actiontypecodename";
-			public const string MwO_ContactGUIdParameter = "mwo_contactguidparameter";
-			public const string MwO_ContactReferenceParameter = "mwo_contactreferenceparameter";
-			public const string MwO_CustomApi = "mwo_customapi";
-			public const string MwO_IsRestrictedToAuthenticated = "mwo_isrestrictedtoauthenticated";
-			public const string MwO_IsRestrictedToAuthenticatedName = "mwo_isrestrictedtoauthenticatedname";
-			public const string MwO_IsRestrictedToWebRoles = "mwo_isrestrictedtowebroles";
-			public const string MwO_IsRestrictedToWebRolesName = "mwo_isrestrictedtowebrolesname";
-			public const string MwO_Operation = "mwo_operation";
-			public const string MwO_PowerPagesActionConfigurationId = "mwo_powerpagesactionconfigurationid";
-			public const string Id = "mwo_powerpagesactionconfigurationid";
-			public const string MwO_PowerPagesConfigurationOfPowerPagesAction = "MwO_PowerPagesConfigurationOfPowerPagesAction";
 			public const string MwO_PPactionConfiguration_MsPp_WebRole = "mwo_PPActionConfiguration_mspp_WebRole";
+			public const string Name = "name";
 			public const string OverriddenCreatedOn = "overriddencreatedon";
+			public const string OverwriteTime = "overwritetime";
 			public const string OwnerId = "ownerid";
 			public const string OwnerIdName = "owneridname";
 			public const string OwnerIdYomiName = "owneridyominame";
@@ -91,6 +89,18 @@ namespace PowerPagesCustomApiAdapter.EarlyBounds
 			public const string OwningBusinessUnitName = "owningbusinessunitname";
 			public const string OwningTeam = "owningteam";
 			public const string OwningUser = "owninguser";
+			public const string PowerPageComponent_MsPp_WebRole_Contact = "powerpagecomponent_mspp_webrole_contact";
+			public const string PowerPageComponent_PowerPageComponent = "powerpagecomponent_powerpagecomponent";
+			public const string PowerPageComponentId = "powerpagecomponentid";
+			public const string Id = "powerpagecomponentid";
+			public const string PowerPageComponentType = "powerpagecomponenttype";
+			public const string PowerPageComponentTypeName = "powerpagecomponenttypename";
+			public const string PowerPageSiteId = "powerpagesiteid";
+			public const string PowerPageSiteIdName = "powerpagesiteidname";
+			public const string PowerPageSiteLanguageId = "powerpagesitelanguageid";
+			public const string PowerPageSiteLanguageIdName = "powerpagesitelanguageidname";
+			public const string SearchContent = "searchcontent";
+			public const string SolutionId = "solutionid";
 			public const string StateCode = "statecode";
 			public const string StateCodename = "statecodename";
 			public const string StatusCode = "statuscode";
@@ -101,19 +111,19 @@ namespace PowerPagesCustomApiAdapter.EarlyBounds
 		}
 		
 		[System.Diagnostics.DebuggerNonUserCode()]
-		public MwO_PowerPagesActionConfiguration(System.Guid id) : 
+		public PowerPageComponent(System.Guid id) : 
 				base(EntityLogicalName, id)
 		{
 		}
 		
 		[System.Diagnostics.DebuggerNonUserCode()]
-		public MwO_PowerPagesActionConfiguration(string keyName, object keyValue) : 
+		public PowerPageComponent(string keyName, object keyValue) : 
 				base(EntityLogicalName, keyName, keyValue)
 		{
 		}
 		
 		[System.Diagnostics.DebuggerNonUserCode()]
-		public MwO_PowerPagesActionConfiguration(Microsoft.Xrm.Sdk.KeyAttributeCollection keyAttributes) : 
+		public PowerPageComponent(Microsoft.Xrm.Sdk.KeyAttributeCollection keyAttributes) : 
 				base(EntityLogicalName, keyAttributes)
 		{
 		}
@@ -122,22 +132,80 @@ namespace PowerPagesCustomApiAdapter.EarlyBounds
 		/// Default Constructor.
 		/// </summary>
 		[System.Diagnostics.DebuggerNonUserCode()]
-		public MwO_PowerPagesActionConfiguration() : 
+		public PowerPageComponent() : 
 				base(EntityLogicalName)
 		{
 		}
 		
-		public const string PrimaryIdAttribute = "mwo_powerpagesactionconfigurationid";
+		public const string PrimaryIdAttribute = "powerpagecomponentid";
 		
-		public const string PrimaryNameAttribute = "mwo_operation";
+		public const string PrimaryNameAttribute = "name";
 		
-		public const string EntitySchemaName = "mwo_PowerPagesActionConfiguration";
+		public const string EntitySchemaName = "powerpagecomponent";
 		
-		public const string EntityLogicalName = "mwo_powerpagesactionconfiguration";
+		public const string EntityLogicalName = "powerpagecomponent";
 		
-		public const string EntityLogicalCollectionName = "mwo_powerpagesactionconfigurations";
+		public const string EntityLogicalCollectionName = "powerpagecomponents";
 		
-		public const string EntitySetName = "mwo_powerpagesactionconfigurations";
+		public const string EntitySetName = "powerpagecomponents";
+		
+		/// <summary>
+		/// For internal use only.
+		/// </summary>
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("componentidunique")]
+		public System.Nullable<System.Guid> ComponentIdUnique
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<System.Nullable<System.Guid>>("componentidunique");
+			}
+		}
+		
+		/// <summary>
+		/// For internal use only.
+		/// </summary>
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("componentstate")]
+		public virtual ComponentState? ComponentState
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return ((ComponentState?)(EntityOptionSetEnum.GetEnum(this, "componentstate")));
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("componentstatename")]
+		public string ComponentStateName
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				if (this.FormattedValues.Contains("componentstate"))
+				{
+					return this.FormattedValues["componentstate"];
+				}
+				else
+				{
+					return default(string);
+				}
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("content")]
+		public string Content
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<string>("content");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("content", value);
+			}
+		}
 		
 		/// <summary>
 		/// Unique identifier of the user who created the record.
@@ -252,6 +320,36 @@ namespace PowerPagesCustomApiAdapter.EarlyBounds
 		}
 		
 		/// <summary>
+		/// File Content column contains portal web files e.g. png, css etc.
+		/// </summary>
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("filecontent")]
+		public object FileContent
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<object>("filecontent");
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("filecontent_name")]
+		public string FileContent_Name
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				if (this.FormattedValues.Contains("filecontent"))
+				{
+					return this.FormattedValues["filecontent"];
+				}
+				else
+				{
+					return default(string);
+				}
+			}
+		}
+		
+		/// <summary>
 		/// Sequence number of the import that created this record.
 		/// </summary>
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("importsequencenumber")]
@@ -266,6 +364,54 @@ namespace PowerPagesCustomApiAdapter.EarlyBounds
 			set
 			{
 				this.SetAttributeValue("importsequencenumber", value);
+			}
+		}
+		
+		/// <summary>
+		/// For internal use only.
+		/// </summary>
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("iscustomizable")]
+		public Microsoft.Xrm.Sdk.BooleanManagedProperty IsCustomizable
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.BooleanManagedProperty>("iscustomizable");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("iscustomizable", value);
+			}
+		}
+		
+		/// <summary>
+		/// Indicates whether the solution component is part of a managed solution.
+		/// </summary>
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("ismanaged")]
+		public System.Nullable<bool> IsManaged
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<System.Nullable<bool>>("ismanaged");
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("ismanagedname")]
+		public string IsManagedName
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				if (this.FormattedValues.Contains("ismanaged"))
+				{
+					return this.FormattedValues["ismanaged"];
+				}
+				else
+				{
+					return default(string);
+				}
 			}
 		}
 		
@@ -381,200 +527,21 @@ namespace PowerPagesCustomApiAdapter.EarlyBounds
 			}
 		}
 		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("mwo_actiontypecode")]
-		public virtual MwO_PowerPagesActionType? MwO_ActionTypeCode
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return ((MwO_PowerPagesActionType?)(EntityOptionSetEnum.GetEnum(this, "mwo_actiontypecode")));
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("mwo_actiontypecode", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("mwo_actiontypecodename")]
-		public string MwO_ActionTypeCodename
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				if (this.FormattedValues.Contains("mwo_actiontypecode"))
-				{
-					return this.FormattedValues["mwo_actiontypecode"];
-				}
-				else
-				{
-					return default(string);
-				}
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("mwo_contactguidparameter")]
-		public string MwO_ContactGUIdParameter
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<string>("mwo_contactguidparameter");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("mwo_contactguidparameter", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("mwo_contactreferenceparameter")]
-		public string MwO_ContactReferenceParameter
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<string>("mwo_contactreferenceparameter");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("mwo_contactreferenceparameter", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("mwo_customapi")]
-		public string MwO_CustomApi
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<string>("mwo_customapi");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("mwo_customapi", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("mwo_isrestrictedtoauthenticated")]
-		public System.Nullable<bool> MwO_IsRestrictedToAuthenticated
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<System.Nullable<bool>>("mwo_isrestrictedtoauthenticated");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("mwo_isrestrictedtoauthenticated", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("mwo_isrestrictedtoauthenticatedname")]
-		public string MwO_IsRestrictedToAuthenticatedName
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				if (this.FormattedValues.Contains("mwo_isrestrictedtoauthenticated"))
-				{
-					return this.FormattedValues["mwo_isrestrictedtoauthenticated"];
-				}
-				else
-				{
-					return default(string);
-				}
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("mwo_isrestrictedtowebroles")]
-		public System.Nullable<bool> MwO_IsRestrictedToWebRoles
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<System.Nullable<bool>>("mwo_isrestrictedtowebroles");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("mwo_isrestrictedtowebroles", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("mwo_isrestrictedtowebrolesname")]
-		public string MwO_IsRestrictedToWebRolesName
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				if (this.FormattedValues.Contains("mwo_isrestrictedtowebroles"))
-				{
-					return this.FormattedValues["mwo_isrestrictedtowebroles"];
-				}
-				else
-				{
-					return default(string);
-				}
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("mwo_operation")]
-		public string MwO_Operation
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<string>("mwo_operation");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("mwo_operation", value);
-			}
-		}
-		
 		/// <summary>
-		/// Unique identifier for entity instances
+		/// The name of the custom entity.
 		/// </summary>
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("mwo_powerpagesactionconfigurationid")]
-		public System.Nullable<System.Guid> MwO_PowerPagesActionConfigurationId
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("name")]
+		public string Name
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
-				return this.GetAttributeValue<System.Nullable<System.Guid>>("mwo_powerpagesactionconfigurationid");
+				return this.GetAttributeValue<string>("name");
 			}
 			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
-				this.SetAttributeValue("mwo_powerpagesactionconfigurationid", value);
-				if (value.HasValue)
-				{
-					base.Id = value.Value;
-				}
-				else
-				{
-					base.Id = System.Guid.Empty;
-				}
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("mwo_powerpagesactionconfigurationid")]
-		public override System.Guid Id
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return base.Id;
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.MwO_PowerPagesActionConfigurationId = value;
+				this.SetAttributeValue("name", value);
 			}
 		}
 		
@@ -593,6 +560,19 @@ namespace PowerPagesCustomApiAdapter.EarlyBounds
 			set
 			{
 				this.SetAttributeValue("overriddencreatedon", value);
+			}
+		}
+		
+		/// <summary>
+		/// For internal use only.
+		/// </summary>
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("overwritetime")]
+		public System.Nullable<System.DateTime> OverwriteTime
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<System.Nullable<System.DateTime>>("overwritetime");
 			}
 		}
 		
@@ -711,15 +691,180 @@ namespace PowerPagesCustomApiAdapter.EarlyBounds
 		}
 		
 		/// <summary>
-		/// Status of the Power Pages Action Configuration
+		/// Unique identifier for entity instances
 		/// </summary>
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("statecode")]
-		public virtual MwO_PowerPagesActionConfiguration_StateCode? StateCode
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("powerpagecomponentid")]
+		public System.Nullable<System.Guid> PowerPageComponentId
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
-				return ((MwO_PowerPagesActionConfiguration_StateCode?)(EntityOptionSetEnum.GetEnum(this, "statecode")));
+				return this.GetAttributeValue<System.Nullable<System.Guid>>("powerpagecomponentid");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("powerpagecomponentid", value);
+				if (value.HasValue)
+				{
+					base.Id = value.Value;
+				}
+				else
+				{
+					base.Id = System.Guid.Empty;
+				}
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("powerpagecomponentid")]
+		public override System.Guid Id
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return base.Id;
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.PowerPageComponentId = value;
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("powerpagecomponenttype")]
+		public virtual PowerPageComponentType? PowerPageComponentType
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return ((PowerPageComponentType?)(EntityOptionSetEnum.GetEnum(this, "powerpagecomponenttype")));
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("powerpagecomponenttype", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("powerpagecomponenttypename")]
+		public string PowerPageComponentTypeName
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				if (this.FormattedValues.Contains("powerpagecomponenttype"))
+				{
+					return this.FormattedValues["powerpagecomponenttype"];
+				}
+				else
+				{
+					return default(string);
+				}
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("powerpagesiteid")]
+		public Microsoft.Xrm.Sdk.EntityReference PowerPageSiteId
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("powerpagesiteid");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("powerpagesiteid", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("powerpagesiteidname")]
+		public string PowerPageSiteIdName
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				if (this.FormattedValues.Contains("powerpagesiteid"))
+				{
+					return this.FormattedValues["powerpagesiteid"];
+				}
+				else
+				{
+					return default(string);
+				}
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("powerpagesitelanguageid")]
+		public Microsoft.Xrm.Sdk.EntityReference PowerPageSiteLanguageId
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("powerpagesitelanguageid");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("powerpagesitelanguageid", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("powerpagesitelanguageidname")]
+		public string PowerPageSiteLanguageIdName
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				if (this.FormattedValues.Contains("powerpagesitelanguageid"))
+				{
+					return this.FormattedValues["powerpagesitelanguageid"];
+				}
+				else
+				{
+					return default(string);
+				}
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("searchcontent")]
+		public string SearchContent
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<string>("searchcontent");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("searchcontent", value);
+			}
+		}
+		
+		/// <summary>
+		/// Unique identifier of the associated solution.
+		/// </summary>
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("solutionid")]
+		public System.Nullable<System.Guid> SolutionId
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<System.Nullable<System.Guid>>("solutionid");
+			}
+		}
+		
+		/// <summary>
+		/// Status of the Power Pages Component
+		/// </summary>
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("statecode")]
+		public virtual PowerPageComponent_StateCode? StateCode
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return ((PowerPageComponent_StateCode?)(EntityOptionSetEnum.GetEnum(this, "statecode")));
 			}
 			[System.Diagnostics.DebuggerNonUserCode()]
 			set
@@ -746,15 +891,15 @@ namespace PowerPagesCustomApiAdapter.EarlyBounds
 		}
 		
 		/// <summary>
-		/// Reason for the status of the Power Pages Action Configuration
+		/// Reason for the status of the Power Pages Component
 		/// </summary>
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("statuscode")]
-		public virtual MwO_PowerPagesActionConfiguration_StatusCode? StatusCode
+		public virtual PowerPageComponent_StatusCode? StatusCode
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
-				return ((MwO_PowerPagesActionConfiguration_StatusCode?)(EntityOptionSetEnum.GetEnum(this, "statuscode")));
+				return ((PowerPageComponent_StatusCode?)(EntityOptionSetEnum.GetEnum(this, "statuscode")));
 			}
 			[System.Diagnostics.DebuggerNonUserCode()]
 			set
@@ -830,38 +975,74 @@ namespace PowerPagesCustomApiAdapter.EarlyBounds
 		}
 		
 		/// <summary>
-		/// 1:N mwo_PowerPagesConfigurationOfPowerPagesAction
+		/// N:N mwo_PPActionConfiguration_mspp_WebRole
 		/// </summary>
-		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("mwo_PowerPagesConfigurationOfPowerPagesAction")]
-		public System.Collections.Generic.IEnumerable<PowerPagesCustomApiAdapter.EarlyBounds.MwO_PowerPagesAction> MwO_PowerPagesConfigurationOfPowerPagesAction
+		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("mwo_PPActionConfiguration_mspp_WebRole")]
+		public System.Collections.Generic.IEnumerable<PowerPagesCustomApiAdapter.EarlyBounds.MwO_PowerPagesActionConfiguration> MwO_PPactionConfiguration_MsPp_WebRole
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
-				return this.GetRelatedEntities<PowerPagesCustomApiAdapter.EarlyBounds.MwO_PowerPagesAction>("mwo_PowerPagesConfigurationOfPowerPagesAction", null);
+				return this.GetRelatedEntities<PowerPagesCustomApiAdapter.EarlyBounds.MwO_PowerPagesActionConfiguration>("mwo_PPActionConfiguration_mspp_WebRole", null);
 			}
 			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
-				this.SetRelatedEntities<PowerPagesCustomApiAdapter.EarlyBounds.MwO_PowerPagesAction>("mwo_PowerPagesConfigurationOfPowerPagesAction", null, value);
+				this.SetRelatedEntities<PowerPagesCustomApiAdapter.EarlyBounds.MwO_PowerPagesActionConfiguration>("mwo_PPActionConfiguration_mspp_WebRole", null, value);
 			}
 		}
 		
 		/// <summary>
-		/// N:N mwo_PPActionConfiguration_mspp_WebRole
+		/// N:N powerpagecomponent_mspp_webrole_contact
 		/// </summary>
-		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("mwo_PPActionConfiguration_mspp_WebRole")]
-		public System.Collections.Generic.IEnumerable<PowerPagesCustomApiAdapter.EarlyBounds.PowerPageComponent> MwO_PPactionConfiguration_MsPp_WebRole
+		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("powerpagecomponent_mspp_webrole_contact")]
+		public System.Collections.Generic.IEnumerable<PowerPagesCustomApiAdapter.EarlyBounds.Contact> PowerPageComponent_MsPp_WebRole_Contact
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
-				return this.GetRelatedEntities<PowerPagesCustomApiAdapter.EarlyBounds.PowerPageComponent>("mwo_PPActionConfiguration_mspp_WebRole", null);
+				return this.GetRelatedEntities<PowerPagesCustomApiAdapter.EarlyBounds.Contact>("powerpagecomponent_mspp_webrole_contact", null);
 			}
 			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
-				this.SetRelatedEntities<PowerPagesCustomApiAdapter.EarlyBounds.PowerPageComponent>("mwo_PPActionConfiguration_mspp_WebRole", null, value);
+				this.SetRelatedEntities<PowerPagesCustomApiAdapter.EarlyBounds.Contact>("powerpagecomponent_mspp_webrole_contact", null, value);
+			}
+		}
+		
+		/// <summary>
+		/// N:N powerpagecomponent_powerpagecomponent
+		/// </summary>
+		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("powerpagecomponent_powerpagecomponent", Microsoft.Xrm.Sdk.EntityRole.Referencing)]
+		public System.Collections.Generic.IEnumerable<PowerPagesCustomApiAdapter.EarlyBounds.PowerPageComponent> ReferencingPowerPageComponent_PowerPageComponent
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetRelatedEntities<PowerPagesCustomApiAdapter.EarlyBounds.PowerPageComponent>("powerpagecomponent_powerpagecomponent", Microsoft.Xrm.Sdk.EntityRole.Referencing);
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetRelatedEntities<PowerPagesCustomApiAdapter.EarlyBounds.PowerPageComponent>("powerpagecomponent_powerpagecomponent", Microsoft.Xrm.Sdk.EntityRole.Referencing, value);
+			}
+		}
+		
+		/// <summary>
+		/// N:N powerpagecomponent_powerpagecomponent
+		/// </summary>
+		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("powerpagecomponent_powerpagecomponent", Microsoft.Xrm.Sdk.EntityRole.Referenced)]
+		public System.Collections.Generic.IEnumerable<PowerPagesCustomApiAdapter.EarlyBounds.PowerPageComponent> ReferencedPowerPageComponent_PowerPageComponent
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetRelatedEntities<PowerPagesCustomApiAdapter.EarlyBounds.PowerPageComponent>("powerpagecomponent_powerpagecomponent", Microsoft.Xrm.Sdk.EntityRole.Referenced);
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetRelatedEntities<PowerPagesCustomApiAdapter.EarlyBounds.PowerPageComponent>("powerpagecomponent_powerpagecomponent", Microsoft.Xrm.Sdk.EntityRole.Referenced, value);
 			}
 		}
 		
@@ -870,7 +1051,7 @@ namespace PowerPagesCustomApiAdapter.EarlyBounds
 		/// <param name="anonymousType">LINQ anonymous type.</param>
 		/// </summary>
 		[System.Diagnostics.DebuggerNonUserCode()]
-		public MwO_PowerPagesActionConfiguration(object anonymousType) : 
+		public PowerPageComponent(object anonymousType) : 
 				this()
 		{
             foreach (var p in anonymousType.GetType().GetProperties())
@@ -888,9 +1069,9 @@ namespace PowerPagesCustomApiAdapter.EarlyBounds
                 {
                     case "id":
                         base.Id = (System.Guid)value;
-                        Attributes["mwo_powerpagesactionconfigurationid"] = base.Id;
+                        Attributes["powerpagecomponentid"] = base.Id;
                         break;
-                    case "mwo_powerpagesactionconfigurationid":
+                    case "powerpagecomponentid":
                         var id = (System.Nullable<System.Guid>) value;
                         if(id == null){ continue; }
                         base.Id = id.Value;

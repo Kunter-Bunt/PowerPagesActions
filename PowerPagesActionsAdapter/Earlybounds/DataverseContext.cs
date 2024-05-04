@@ -29,6 +29,28 @@ namespace PowerPagesCustomApiAdapter.EarlyBounds
 		}
 		
 		/// <summary>
+		/// Gets a binding to the set of all <see cref="PowerPagesCustomApiAdapter.EarlyBounds.Contact"/> entities.
+		/// </summary>
+		public System.Linq.IQueryable<PowerPagesCustomApiAdapter.EarlyBounds.Contact> ContactSet
+		{
+			get
+			{
+				return this.CreateQuery<PowerPagesCustomApiAdapter.EarlyBounds.Contact>();
+			}
+		}
+		
+		/// <summary>
+		/// Gets a binding to the set of all <see cref="PowerPagesCustomApiAdapter.EarlyBounds.MsPp_WebRole"/> entities.
+		/// </summary>
+		public System.Linq.IQueryable<PowerPagesCustomApiAdapter.EarlyBounds.MsPp_WebRole> MsPp_WebRoleSet
+		{
+			get
+			{
+				return this.CreateQuery<PowerPagesCustomApiAdapter.EarlyBounds.MsPp_WebRole>();
+			}
+		}
+		
+		/// <summary>
 		/// Gets a binding to the set of all <see cref="PowerPagesCustomApiAdapter.EarlyBounds.MwO_PowerPagesAction"/> entities.
 		/// </summary>
 		public System.Linq.IQueryable<PowerPagesCustomApiAdapter.EarlyBounds.MwO_PowerPagesAction> MwO_PowerPagesActionSet
@@ -47,6 +69,17 @@ namespace PowerPagesCustomApiAdapter.EarlyBounds
 			get
 			{
 				return this.CreateQuery<PowerPagesCustomApiAdapter.EarlyBounds.MwO_PowerPagesActionConfiguration>();
+			}
+		}
+		
+		/// <summary>
+		/// Gets a binding to the set of all <see cref="PowerPagesCustomApiAdapter.EarlyBounds.PowerPageComponent"/> entities.
+		/// </summary>
+		public System.Linq.IQueryable<PowerPagesCustomApiAdapter.EarlyBounds.PowerPageComponent> PowerPageComponentSet
+		{
+			get
+			{
+				return this.CreateQuery<PowerPagesCustomApiAdapter.EarlyBounds.PowerPageComponent>();
 			}
 		}
 	}

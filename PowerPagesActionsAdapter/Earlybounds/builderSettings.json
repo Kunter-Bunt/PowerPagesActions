@@ -89,8 +89,11 @@
   "emitFieldsClasses": true,
   "emitVirtualAttributes": true,
   "entityNamesFilter": [
+    "contact",
+    "mspp_webrole",
     "mwo_powerpagesaction",
-    "mwo_powerpagesactionconfiguration"
+    "mwo_powerpagesactionconfiguration",
+    "powerpagecomponent"
   ],
   "entityTypesFolder": "Entities",
   "generateActions": false,

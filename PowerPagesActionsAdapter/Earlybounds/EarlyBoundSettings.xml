@@ -13,9 +13,10 @@
     <ActionsWhitelist />
     <ActionsToSkip />
     <AddDebuggerNonUserCode>true</AddDebuggerNonUserCode>
-    <AddNewFilesToProject>true</AddNewFilesToProject>
+    <AddNewFilesToProject>false</AddNewFilesToProject>
     <AddOptionSetMetadataAttribute>true</AddOptionSetMetadataAttribute>
     <AdjustCasingForEnumOptions>true</AdjustCasingForEnumOptions>
+    <AttributeBlacklist />
     <BuilderSettingsJsonRelativePath>builderSettings.json</BuilderSettingsJsonRelativePath>
     <CamelCaseClassNames>true</CamelCaseClassNames>
     <CamelCaseCustomWords />
@@ -27,8 +28,11 @@
     <CreateOneFilePerOptionSet>true</CreateOneFilePerOptionSet>
     <DeleteFilesFromOutputFolders>false</DeleteFilesFromOutputFolders>
     <EntitiesToSkip />
-    <EntitiesWhitelist>mwo_powerpagesaction|
-mwo_powerpagesactionconfiguration</EntitiesWhitelist>
+    <EntitiesWhitelist>contact|
+mspp_webrole|
+mwo_powerpagesaction|
+mwo_powerpagesactionconfiguration|
+powerpagecomponent</EntitiesWhitelist>
     <EntityAttributeSpecifiedNames />
     <EntityClassNameOverrides />
     <EntityPrefixesToSkip />
@@ -119,5 +123,5 @@ VoiceMail</TokenCapitalizationOverrides>
   <SuppressGeneratedCodeAttribute>true</SuppressGeneratedCodeAttribute>
   <SettingsVersion>2.2024.2.1</SettingsVersion>
   <UpdateBuilderSettingsJson>true</UpdateBuilderSettingsJson>
-  <Version>2.2024.2.1</Version>
+  <Version>2.2024.5.4</Version>
 </Config>
