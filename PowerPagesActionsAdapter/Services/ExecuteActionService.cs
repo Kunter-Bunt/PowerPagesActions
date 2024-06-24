@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using PowerPagesActionsAdapter.Models;
 using PowerPagesActionsAdapter.Plugins;
 using PowerPagesCustomApiAdapter.EarlyBounds;
@@ -123,8 +124,9 @@ namespace PowerPagesActionsAdapter.Services
 
             foreach (var input in inputs)
             {
-                TracingService.Trace($"Add Parameter {input.Key}: {input.Value}");
-                request.Parameters[input.Key] = input.Value;
+                var value = ConvertDeserializedInput(input.Value);
+                TracingService.Trace($"Add Parameter {input.Key}: {value}");
+                request.Parameters[input.Key] = value;
             }
 
             TracingService.Trace($"Executing {config.MwO_CustomApi} Request");
@@ -182,6 +184,21 @@ namespace PowerPagesActionsAdapter.Services
                 if (!roleMatch)
                     throw new InvalidPluginExecutionException("Action not allowed for the current roles.");
             }
+        }
+
+        private object ConvertDeserializedInput(object value)
+        {
+            TracingService.Trace($"ConvertDeserializedInput {value.GetType().FullName}: {value}");
+            if (value is JObject jObject && jObject.Properties().Count() == 2)
+            {
+                var logicalName = jObject.GetValue("LogicalName")?.ToString();
+                var id = jObject.GetValue("Id")?.ToObject<Guid>();
+                if (!string.IsNullOrEmpty(logicalName) && id != null)
+                {
+                    return new EntityReference(logicalName, id.Value);
+                }
+            }
+            return value;
         }
     }
 }
