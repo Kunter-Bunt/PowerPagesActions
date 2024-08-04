@@ -1,12 +1,10 @@
 ﻿using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using PowerPagesActionsAdapter.Models;
 using PowerPagesActionsAdapter.Plugins;
 using PowerPagesCustomApiAdapter.EarlyBounds;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,10 +16,12 @@ namespace PowerPagesActionsAdapter.Services
         {
             TracingService = localPluginContext.TracingService;
             DataverseContext = new DataverseContext(localPluginContext.InitiatingUserService);
+            ParameterConversionService = new ParameterConversionService(localPluginContext);
         }
 
         private readonly ITracingService TracingService;
         private readonly DataverseContext DataverseContext;
+        private readonly ParameterConversionService ParameterConversionService;
 
         public MwO_PowerPagesAction ExecuteAction(QueryExpression query)
         {
@@ -122,11 +122,11 @@ namespace PowerPagesActionsAdapter.Services
             if (!string.IsNullOrEmpty(config.MwO_ContactReferenceParameter) && target.MwO_ContactId != null)
                 inputs[config.MwO_ContactReferenceParameter] = target.MwO_ContactId;
 
-            foreach (var input in inputs)
+            var convertedInputs = inputs.Select(_ => new KeyValuePair<string, object>(_.Key, ParameterConversionService.Convert(_.Value))).ToList();
+            foreach (var input in convertedInputs)
             {
-                var value = ConvertDeserializedInput(input.Value);
-                TracingService.Trace($"Add Parameter {input.Key}: {value}");
-                request.Parameters[input.Key] = value;
+                TracingService.Trace($"Add Parameter {input.Key}: {input.Value} ({input.Value.GetType().Name})");
+                request.Parameters[input.Key] = input.Value;
             }
 
             TracingService.Trace($"Executing {config.MwO_CustomApi} Request");
@@ -184,21 +184,6 @@ namespace PowerPagesActionsAdapter.Services
                 if (!roleMatch)
                     throw new InvalidPluginExecutionException("Action not allowed for the current roles.");
             }
-        }
-
-        private object ConvertDeserializedInput(object value)
-        {
-            TracingService.Trace($"ConvertDeserializedInput {value.GetType().FullName}: {value}");
-            if (value is JObject jObject && jObject.Properties().Count() == 2)
-            {
-                var logicalName = jObject.GetValue("LogicalName")?.ToString();
-                var id = jObject.GetValue("Id")?.ToObject<Guid>();
-                if (!string.IsNullOrEmpty(logicalName) && id != null)
-                {
-                    return new EntityReference(logicalName, id.Value);
-                }
-            }
-            return value;
         }
     }
 }
