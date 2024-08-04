@@ -87,7 +87,7 @@ namespace PowerPagesActionsAdapter.Services
                 var id = ent.GetValue("Id")?.ToObject<Guid>();
                 entityList.Add(ConvertToEntity(logicalName, id, attributes));
             }
-            return new EntityCollection()
+            return new EntityCollection(entityList)
             {
                 EntityName = entityName,
             };
