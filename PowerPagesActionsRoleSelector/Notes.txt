@@ -1,0 +1,3 @@
+pac pcf init --name PowerPagesActionsRoleSelector --namespace PowerPagesActionsRoleSelector --template dataset --framework react --run-npm-install
+npm run refreshTypes
+pac solution init --publisher-name MariusWodtke --publisher-prefix mwo
