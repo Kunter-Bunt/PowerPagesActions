@@ -2,11 +2,14 @@ import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import { RoleSelectionGrid, IRoleSelectionGridProps } from "./RoleSelectionGrid";
 import * as React from "react";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
+import { DataverseProcessor } from "./DataverseProcessor";
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
 export class PowerPagesActionsRoleSelector implements ComponentFramework.ReactControl<IInputs, IOutputs> {
     private theComponent: ComponentFramework.ReactControl<IInputs, IOutputs>;
     private notifyOutputChanged: () => void;
+    private dataverseProcessor: DataverseProcessor;
+    private output: IOutputs;
 
     /**
      * Empty constructor.
@@ -26,6 +29,7 @@ export class PowerPagesActionsRoleSelector implements ComponentFramework.ReactCo
         state: ComponentFramework.Dictionary
     ): void {
         this.notifyOutputChanged = notifyOutputChanged;
+        this.dataverseProcessor = new DataverseProcessor(context);
     }
 
     /**
@@ -35,18 +39,11 @@ export class PowerPagesActionsRoleSelector implements ComponentFramework.ReactCo
      */
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
         const props: IRoleSelectionGridProps = { 
-            logicalname: context.parameters.logicalname.raw ?? "",
-            id: context.parameters.id.raw ?? "",
-            data: [
-                {
-                    key: "123",
-                    selected: true
-                },
-                {
-                    key: "456",
-                    selected: false
-                },
-            ]
+            getData: () => this.dataverseProcessor.GetAllRoles(),
+            selectionChanged: async (selection) => {
+                this.output = await this.dataverseProcessor.ProcessSelectionChanged(selection);
+                this.notifyOutputChanged();
+            }
          };
         return React.createElement(
             RoleSelectionGrid, props
@@ -58,7 +55,7 @@ export class PowerPagesActionsRoleSelector implements ComponentFramework.ReactCo
      * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as "bound" or "output"
      */
     public getOutputs(): IOutputs {
-        return { };
+        return this.output;
     }
 
     /**

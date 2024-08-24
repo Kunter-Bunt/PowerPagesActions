@@ -1,78 +1,83 @@
 import * as React from 'react';
-import { Label } from '@fluentui/react';
-import { DetailsList, DetailsListLayoutMode, Selection } from "office-ui-fabric-react/lib/DetailsList";
+import { DetailsList, DetailsListLayoutMode, IColumn, Selection } from "office-ui-fabric-react/lib/DetailsList";
 import { MarqueeSelection } from "office-ui-fabric-react/lib/MarqueeSelection";
 import { Fabric } from "office-ui-fabric-react/lib/Fabric";
+import { IObjectWithKey } from '@uifabric/utilities/lib/selection/Selection.types';
 
 export interface IRoleSelectionGridProps {
-  logicalname?: string;
-  id?: string;
+  getData: () => Promise<IRecord[]>;
+  selectionChanged: (selection: Selection) => void;
+}
+
+export interface IRoleSelectionGridState {
   data: IRecord[];
 }
 
-export interface IRecord {
+export interface IRecord extends IObjectWithKey {
   key: string;
+  name: string;
+  site: string;
   selected: boolean;
 }
 
-export class RoleSelectionGrid extends React.Component<IRoleSelectionGridProps> {
-  public render(): React.ReactNode {
-    let selection = new Selection({
-      onSelectionChanged: () => {
-          this.onRowSelection(selection.count);
-      }
-  });
+export class RoleSelectionGrid extends React.Component<IRoleSelectionGridProps, IRoleSelectionGridState> {
+  private columns: IColumn[];
+  private selection: Selection;
 
-    return (
-      <Fabric>
-      <MarqueeSelection selection= { selection } >
-          <DetailsList
-              items={ this.props.data }
-              //columns = { this._columns }
-              setKey ="set"
-              layoutMode = { DetailsListLayoutMode.justified }
-              selection = { selection }
-              selectionPreservedOnEmptyClick = { true}
-              ariaLabelForSelectionColumn ="Toggle selection"
-              ariaLabelForSelectAllCheckbox ="Toggle selection for all items"
-              checkButtonAriaLabel ="Row checkbox"
-              //onItemInvoked = { this._onItemInvoked }
-          />
-      </MarqueeSelection>
-  </Fabric>
-    )
+  constructor(props: IRoleSelectionGridProps) {
+    super(props);
+    this.state = {
+      data: [] as IRecord[]
+    };
+    this.props.getData().then((d) => {
+      this.selection.setItems(d, true);
+      d.forEach((item) => this.selection.setKeySelected(item.key, item.selected, false));
+      this.setState({ data: d })
+    });
+
+    this.columns = [
+      {
+        key: 'name',
+        name: 'Name',
+        fieldName: 'name',
+        minWidth: 100,
+        maxWidth: 200,
+        isResizable: true
+      },
+      {
+        key: 'site',
+        name: 'Site',
+        fieldName: 'site',
+        minWidth: 100,
+        maxWidth: 200,
+        isResizable: true
+      }
+    ];
+
+    this.selection = new Selection({
+      getKey: (item: IRecord) => item.key,
+      onSelectionChanged: () => this.props.selectionChanged(this.selection)
+    });
+    
   }
 
-  private onRowSelection = (rowIndex: number) => {
-    let functionName: string = "onRowSelection";
-    let selectedRowId: string;
-    let selectedCardIndex: number;
-    /*
-    try {
-        selectedRowId = this.props.pageRows[rowIndex].key;
-
-        // check if selected row is alrady seelected
-        selectedCardIndex = this._allSelectedCards.findIndex((element: any) => {
-            return element == selectedRowId;
-        });
-
-        // if card is already clicked remove card id
-        if (selectedCardIndex >= 0) {
-            this._allSelectedCards.splice(selectedCardIndex, 1);
-        } else {
-            // store all selected card in array
-            this._allSelectedCards.push(selectedRowId);
-        }
-
-        // update ribbon bar
-
-        this._pcfContext.parameters.sampleDataSet.setSelectedRecordIds(
-            this._allSelectedCards
-        );
-
-    } catch (error) {
-        console.log(functionName + "" + error);
-    }
-    */
-};
+  public render(): React.ReactNode {
+    return (
+      <Fabric>
+        <MarqueeSelection selection={this.selection} >
+          <DetailsList
+            items={this.state.data}
+            columns={this.columns}
+            setKey="set"
+            layoutMode={DetailsListLayoutMode.justified}
+            selection={this.selection}
+            selectionPreservedOnEmptyClick={true}
+            ariaLabelForSelectionColumn="Toggle selection"
+            ariaLabelForSelectAllCheckbox="Toggle selection for all items"
+            checkButtonAriaLabel="Row checkbox"
+          />
+        </MarqueeSelection>
+      </Fabric>
+    )
+  }
 }
