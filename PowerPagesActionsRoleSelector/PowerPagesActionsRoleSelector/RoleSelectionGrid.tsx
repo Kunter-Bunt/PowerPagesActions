@@ -3,6 +3,7 @@ import { DetailsList, DetailsListLayoutMode, IColumn, Selection } from "office-u
 import { MarqueeSelection } from "office-ui-fabric-react/lib/MarqueeSelection";
 import { Fabric } from "office-ui-fabric-react/lib/Fabric";
 import { IObjectWithKey } from '@uifabric/utilities/lib/selection/Selection.types';
+import { Label } from 'office-ui-fabric-react/lib/Label';
 
 export interface IRoleSelectionGridProps {
   getData: () => Promise<IRecord[]>;
@@ -11,6 +12,7 @@ export interface IRoleSelectionGridProps {
 
 export interface IRoleSelectionGridState {
   data: IRecord[];
+  explanation: string;
 }
 
 export interface IRecord extends IObjectWithKey {
@@ -27,12 +29,15 @@ export class RoleSelectionGrid extends React.Component<IRoleSelectionGridProps, 
   constructor(props: IRoleSelectionGridProps) {
     super(props);
     this.state = {
-      data: [] as IRecord[]
+      data: [] as IRecord[],
+      explanation: "Loading..."
     };
-    this.props.getData().then((d) => {
-      this.selection.setItems(d, true);
-      d.forEach((item) => this.selection.setKeySelected(item.key, item.selected, false));
-      this.setState({ data: d })
+    this.props.getData().then((data) => {
+      this.selection.setItems(data, true);
+      data.forEach((item) => this.selection.setKeySelected(item.key, item.selected, false));
+      this.setState({ data: data });
+
+      this.updateExplanation(this.selection);
     });
 
     this.columns = [
@@ -41,29 +46,53 @@ export class RoleSelectionGrid extends React.Component<IRoleSelectionGridProps, 
         name: 'Name',
         fieldName: 'name',
         minWidth: 100,
-        maxWidth: 200,
-        isResizable: true
+        maxWidth: 400,
+        isResizable: true,
       },
       {
         key: 'site',
         name: 'Site',
         fieldName: 'site',
         minWidth: 100,
-        maxWidth: 200,
-        isResizable: true
+        maxWidth: 400,
+        isResizable: true,
       }
     ];
 
     this.selection = new Selection({
       getKey: (item: IRecord) => item.key,
-      onSelectionChanged: () => this.props.selectionChanged(this.selection)
+      onSelectionChanged: () => {
+        this.updateExplanation(this.selection);
+        this.props.selectionChanged(this.selection)
+      }
     });
     
   }
 
+  private updateExplanation(selection: Selection<IObjectWithKey>): void {
+    const selectedItems = selection.getSelection();
+    if (selectedItems.length === 0) {
+      this.setState({ explanation: "Action is available to all users, including anonymous users (on any site)." });
+      return;
+    }
+
+    let text = "Action is available to authenticated users (on any site)";
+    const selectedRoles = selectedItems
+      .map(item => (item as IRecord))
+      .filter(item => item.name !== "Authenticated Users")
+      .map(item => `${item.name} (${item.site})`);
+
+    if (selectedRoles.length > 0) {
+      text += " that have the role " + selectedRoles.join(" or ");
+    }
+
+    this.setState({ explanation: text });
+  }
+
   public render(): React.ReactNode {
     return (
-      <Fabric>
+      <Fabric style={{ width: "100%" }}>
+        <Label>{this.state.explanation}</Label>
         <MarqueeSelection selection={this.selection} >
           <DetailsList
             items={this.state.data}
