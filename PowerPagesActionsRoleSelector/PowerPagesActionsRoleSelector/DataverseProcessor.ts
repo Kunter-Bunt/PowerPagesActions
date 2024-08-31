@@ -2,6 +2,7 @@ import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import { Selection } from "office-ui-fabric-react/lib/DetailsList";
 import { IRecord } from "./RoleSelectionGrid";
 
+const AuthenticatedUsersKey = "AuthenticatedUsers";
 export class DataverseProcessor {
     private context: ComponentFramework.Context<IInputs, ComponentFramework.IEventBag>;
     private webAPI: Xrm.WebApiOnline;
@@ -14,9 +15,11 @@ export class DataverseProcessor {
     }
 
     async GetAllRoles(): Promise<IRecord[]> {
-        const results = await this.webAPI.retrieveMultipleRecords("mspp_webrole", "?$select=mspp_webroleid,mspp_name,_mspp_websiteid_value");
+        const filter = "mspp_anonymoususersrole eq false and mspp_authenticatedusersrole eq false";
+        const select = "mspp_webroleid,mspp_name,_mspp_websiteid_value";
+        const results = await this.webAPI.retrieveMultipleRecords("mspp_webrole", `?$filter=${filter}&$select=${select}`);
         const selected = await this.GetCurrentlySelectedRoles();
-        return results.entities.map((e) => {
+        const mapped = results.entities.map((e) => {
             return {
                 key: e.mspp_webroleid,
                 name: e.mspp_name,
@@ -24,6 +27,13 @@ export class DataverseProcessor {
                 selected: selected.some(r => r.powerpagecomponentid === e.mspp_webroleid)
             };
         });
+        mapped.unshift({
+            key: AuthenticatedUsersKey,
+            name: "Authenticated Users",
+            site: "All Sites",
+            selected: this.context.parameters.isrestrictedtoauthenticated.raw ?? false
+        });
+        return mapped;
     }
 
     async GetCurrentlySelectedRoles(): Promise<IRole[]> { 
@@ -44,7 +54,7 @@ export class DataverseProcessor {
             const isSelected = selection.isKeySelected(record.key);
             console.log(`Item ${record.key}(${record.name}) is selected: ${isSelected}`);
 
-            if (record.name === "Authenticated Users" && isSelected) {
+            if (record.key === AuthenticatedUsersKey && isSelected) {
                 outputs.isrestrictedtoauthenticated = true;
             }
             else if (isSelected) {
