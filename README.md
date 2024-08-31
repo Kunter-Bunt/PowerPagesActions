@@ -6,7 +6,7 @@ Call custom code from Power Pages! This page creates a mapping from a Custom API
 [![Setup](https://img.youtube.com/vi/oTJVEFKjM1Y/0.jpg)](https://www.youtube.com/watch?v=oTJVEFKjM1Y)
 - Authorization  
 [![Authorization](https://img.youtube.com/vi/l9CJR_pQ2T0/0.jpg)](https://www.youtube.com/watch?v=l9CJR_pQ2T0)
-- Improved Authorization
+- Improved Authorization  
 [![Authorization](https://img.youtube.com/vi/O39U-tgh4as/0.jpg)](https://www.youtube.com/watch?v=O39U-tgh4as)
 - Bound APIs  
 [![Setup Guide](https://img.youtube.com/vi/2Q7ox1fyci0/0.jpg)](https://www.youtube.com/watch?v=2Q7ox1fyci0)
