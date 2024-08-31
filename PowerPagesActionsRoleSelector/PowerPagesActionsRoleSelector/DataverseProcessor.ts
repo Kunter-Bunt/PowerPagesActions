@@ -17,7 +17,8 @@ export class DataverseProcessor {
     async GetAllRoles(): Promise<IRecord[]> {
         const filter = "mspp_anonymoususersrole eq false and mspp_authenticatedusersrole eq false";
         const select = "mspp_webroleid,mspp_name,_mspp_websiteid_value";
-        const results = await this.webAPI.retrieveMultipleRecords("mspp_webrole", `?$filter=${filter}&$select=${select}`);
+        const order = "_mspp_websiteid_value asc,mspp_name asc";
+        const results = await this.webAPI.retrieveMultipleRecords("mspp_webrole", `?$filter=${filter}&$select=${select}&$orderby=${order}`);
         const selected = await this.GetCurrentlySelectedRoles();
         const mapped = results.entities.map((e) => {
             return {
