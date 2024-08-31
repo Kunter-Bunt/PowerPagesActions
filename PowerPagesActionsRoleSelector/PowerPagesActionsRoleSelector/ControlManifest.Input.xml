@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+  <control namespace="PowerPagesActionsRoleSelector" constructor="PowerPagesActionsRoleSelector" version="0.0.5" display-name-key="PowerPagesActionsRoleSelector" description-key="PowerPagesActionsRoleSelector description" control-type="virtual" >
+    <property name="isrestrictedtoauthenticated" display-name-key="Restrict to Authenticated Users" description-key="Boolean wether only authenticated users are allowed" of-type="TwoOptions" usage="bound" required="true" />
+    <property name="isrestrictedtowebroles" display-name-key="Restrict to Webroles" description-key="Boolean wether the action is further restricted to roles" of-type="TwoOptions" usage="bound" required="true" />
+    <resources>
+      <code path="index.ts" order="1"/>
+      <platform-library name="React" version="16.8.6" />
+      <platform-library name="Fluent" version="8.29.0" />
+    </resources>
+    <feature-usage>
+      <uses-feature name="Utility" required="true" />
+      <uses-feature name="WebAPI" required="true" />
+    </feature-usage>
+  </control>
+</manifest>
