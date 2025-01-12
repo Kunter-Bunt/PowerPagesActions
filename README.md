@@ -2,6 +2,8 @@
 Call custom code from Power Pages! This page creates a mapping from a Custom API to the Power Pages OData Endpoint, allowing you to call selected Custom APIs from your website code.
 
 ## Guides
+- PPA vs Flow integration  
+[![PPA vs Flow integration](https://img.youtube.com/vi/b2KfA8ZJZI8/0.jpg)](https://www.youtube.com/watch?v=b2KfA8ZJZI8)
 - Setup  
 [![Setup](https://img.youtube.com/vi/oTJVEFKjM1Y/0.jpg)](https://www.youtube.com/watch?v=oTJVEFKjM1Y)
 - Authorization  
@@ -12,6 +14,7 @@ Call custom code from Power Pages! This page creates a mapping from a Custom API
 [![Setup Guide](https://img.youtube.com/vi/2Q7ox1fyci0/0.jpg)](https://www.youtube.com/watch?v=2Q7ox1fyci0)
 - All Parameter Types  
 [![All Parameter Types](https://www.marius-wodtke.de/post/power-pages/custom-api-parameters/cover.jpg)](https://www.marius-wodtke.de/post/power-pages/custom-api-parameters/)
+
 
 
 ## Setup
