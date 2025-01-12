@@ -1,0 +1,29 @@
+{
+  "devDependencies": {
+    "@types/jquery": "^3.5.32"
+  },
+  "name": "powerpagesactions",
+  "description": "Call custom code from Power Pages! This page creates a mapping from a Custom API to the Power Pages OData Endpoint, allowing you to call selected Custom APIs from your website code.",
+  "version": "1.1.0",
+  "main": "dist/actions.js",
+  "types": "dist/actions.d.ts",
+  "files": [
+    "dist/actions.js",
+    "dist/actions.d.ts",
+    "actions.ts"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kunter-Bunt/PowerPagesActions.git"
+  },
+  "author": "Marius Wodtke",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Kunter-Bunt/PowerPagesActions/issues"
+  },
+  "homepage": "https://github.com/Kunter-Bunt/PowerPagesActions#readme"
+}
