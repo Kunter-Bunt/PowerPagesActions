@@ -47,7 +47,7 @@ namespace PowerPagesActionsSample
             EntityReference val => $"{val.Id}({val.LogicalName})",
             Entity val => $"{val.Id}({val.LogicalName}, {val.Attributes.Count} Attributes)",
             EntityCollection val => PrintEntityCollection(val),
-            _ => $"{value.GetType().Name}: {value}",
+            _ => $"{value?.GetType().Name}: {value}",
         };
 
         private string PrintEntityCollection(EntityCollection collection)
