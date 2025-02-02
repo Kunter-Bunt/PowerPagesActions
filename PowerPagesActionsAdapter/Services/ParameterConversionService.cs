@@ -16,16 +16,48 @@ namespace PowerPagesActionsAdapter.Services
 
         private readonly ITracingService TracingService;
 
-        public object Convert(object value)
+        public object Convert(string attrName, object value)
         {
-            TracingService.Trace($"ParameterConversionService Input {value.GetType().FullName}: {value}");
-            var output = ConvertInternal(value);
+            TracingService.Trace($"ParameterConversionService Input {value.GetType().FullName}: {value} ({attrName})");
+            var output = ConvertInternal(attrName, value);
             TracingService.Trace($"ParameterConversionService Output {output.GetType().FullName}: {output}");
             return output;
         }
 
-        private object ConvertInternal(object value)
+        private object ConvertInternal(string attrName, object value)
         {
+            try
+            {
+                //@ is not allowed: Export key attribute uniquename for component CustomAPIRequestParameter must begin with a letter and only consist of alpha-numeric and _.{}! characters."
+                var splitted = attrName?.Split('@');
+                var parsingHint = splitted.Length > 1 ? splitted[1] : "";
+                switch (parsingHint)
+                {
+                    case "string":
+                        return value?.ToString();
+                    case "int":
+                        return int.Parse(value?.ToString());
+                    case "decimal":
+                        return decimal.Parse(value?.ToString());
+                    case "bool":
+                        return bool.Parse(value?.ToString());
+                    case "guid":
+                        return Guid.Parse(value?.ToString());
+                    case "float":
+                        return double.Parse(value?.ToString());
+                    case "datetime":
+                        return value as DateTime? ?? DateTime.Parse(value?.ToString());
+                    case "picklist":
+                        return new OptionSetValue(int.Parse(value?.ToString()));
+                    case "money":
+                        return new Money(decimal.Parse(value?.ToString()));
+                }
+            }
+            catch (Exception ex)
+            {
+                TracingService.Trace($"Error converting with parsingHint ({attrName}): {ex.Message}");
+            }
+                
             switch (value)
             {
                 case JObject jObject:
@@ -99,7 +131,7 @@ namespace PowerPagesActionsAdapter.Services
             var ent = new Entity(logicalName);
             foreach (var attribute in attributes)
             {
-                var value = Convert(attribute.Value);
+                var value = Convert(attribute.Key, attribute.Value);
                 ent[attribute.Key] = value;
             }
             if (id != null)

@@ -122,7 +122,12 @@ namespace PowerPagesActionsAdapter.Services
             if (!string.IsNullOrEmpty(config.MwO_ContactReferenceParameter) && target.MwO_ContactId != null)
                 inputs[config.MwO_ContactReferenceParameter] = target.MwO_ContactId;
 
-            var convertedInputs = inputs.Select(_ => new KeyValuePair<string, object>(_.Key, ParameterConversionService.Convert(_.Value))).ToList();
+            var convertedInputs = inputs
+                .Select(_ => new KeyValuePair<string, object>(
+                    _.Key.Split('@')[0], 
+                    ParameterConversionService.Convert(_.Key, _.Value)
+                    ))
+                .ToList();
             foreach (var input in convertedInputs)
             {
                 TracingService.Trace($"Add Parameter {input.Key}: {input.Value} ({input.Value.GetType().Name})");
